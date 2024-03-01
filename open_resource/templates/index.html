@@ -1,0 +1,15 @@
+<html>
+
+<head>
+  <title>Planning Applications Decisions - Major and Minor Developments , England, District</title>
+</head>
+
+<body>
+  <h1>DCLG Planning Decisions Major and Minor Developmets by Development Type</h1> 
+  {% for row in rows %} 
+  <p>Data: <b> <a href={{ url_for('show', Feature_ID= row['Feature_ID']) }}>{{row["Feature_ID"]}}</a></b>
+  {{row["DateCode"]}} | {{ row["Measurement"]}} | {{row['Value']}}  | {{ row["by_Development_Type"]}}
+  </p> {% endfor %}
+</body>
+
+</html>

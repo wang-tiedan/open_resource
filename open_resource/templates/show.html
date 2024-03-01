@@ -1,0 +1,14 @@
+<html>
+
+<head>
+  <title>Planning Applications Decisions - Major and Minor Developments , England, District</title>
+</head>
+
+<body>
+  <h1>DCLG Planning Decisions Major and Minor Developments by category.</h1>
+  <p>FeatureID: <b>{{Feature_ID}}</b>
+  <p>Sightings via Radio Device</p> {% for row in rows %} <p>Bear: <b>{{row["Feature_ID"]}}</b> | {{row["DateCode"]}} | {{ row["Value"]}}
+    {% endfor %}
+</body>
+
+</html>
