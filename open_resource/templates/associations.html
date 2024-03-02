@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Planning Applications Decisions - Associations{% endblock %}
+
+{% block header %}Associated Data from ID_table and Category{% endblock %}
+
+{% block content %}
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Feature ID</th>
+        <th>ID Table Date Code</th>
+        <th>ID Table Measurement</th>
+        <th>ID Table Value</th>
+        <th>ID Table Development Type</th>
+        <th>Category Value</th>
+        <th>Category Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>{{ row["Feature_ID"] }}</td>
+          <td>{{ row["ID_Table_DateCode"] }}</td>
+          <td>{{ row["ID_Table_Measurement"] }}</td> 
+          <td>{{ row["ID_Table_Value"] }}</td> 
+          <td>{{ row["ID_Table_DevelopmentType"] }}</td> 
+          <td>{{ row["Category_Value"] }}</td> 
+          <td>{{ row["Category_Type"] }}</td> 
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
