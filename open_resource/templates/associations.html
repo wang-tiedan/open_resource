@@ -8,6 +8,7 @@
   <table class="data-table">
     <thead>
       <tr>
+        <th>Category ID</th>
         <th>Feature ID</th>
         <th>ID Table Date Code</th>
         <th>ID Table Measurement</th>
@@ -20,13 +21,14 @@
     <tbody>
       {% for row in rows %}
         <tr>
+          <td>{{ row["ID"] }}</td>
           <td>{{ row["Feature_ID"] }}</td>
-          <td>{{ row["ID_Table_DateCode"] }}</td>
-          <td>{{ row["ID_Table_Measurement"] }}</td> 
-          <td>{{ row["ID_Table_Value"] }}</td> 
-          <td>{{ row["ID_Table_DevelopmentType"] }}</td> 
-          <td>{{ row["Category_Value"] }}</td> 
-          <td>{{ row["Category_Type"] }}</td> 
+          <td>{{ row["DateCode"] }}</td>
+          <td>{{ row["Measurement"] }}</td> 
+          <td>{{ row["Value"] }}</td> 
+          <td>{{ row["by_Development_Type"] }}</td> 
+          <td>{{ row["Cvalue"] }}</td> 
+          <td>{{ row["by_category"] }}</td> 
         </tr>
       {% endfor %}
     </tbody>

@@ -37,16 +37,19 @@ def show(Feature_ID):
   conn.close()
   return render_template('show.html', rows=rows, Feature_ID=Feature_ID)
 
-@app.route('/associations')
-def associations():
-  conn = get_connection()
-  cur = conn.cursor()
-  cur.execute("""
-      SELECT * FROM ID_table
-      JOIN category ON ID_table.Feature_ID = category.Feature_ID
-  """)
-  rows = cur.fetchall()
-  conn.close()
+@app.route('/associations/<Feature_ID>')
+def associations(Feature_ID):
+  try:
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT ID_table.Feature_ID, ID_table.DateCode, ID_table.Measurement,ID_table.Value, ID_table.by_Development_Type,category.ID,category.Value  AS 'Cvalue',category.DateCode  AS 'CDateCode',category.by_category   FROM ID_table
+        JOIN category ON ID_table.Feature_ID = category.Feature_ID where category.Feature_ID = ?
+    """, (Feature_ID,))
+    rows = cur.fetchall()
+    conn.close()
+  except Exception as e:
+     return f"innernal error {repr(e)}"
   return render_template('associations.html', rows=rows)
 
 if __name__ == '__main__':

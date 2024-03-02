@@ -34,7 +34,7 @@
     <tbody>
       {% for row in rows %}
         <tr>
-          <td><b>{{ row["Feature_ID"] }}</b></td>
+          <td><a href="{{ url_for('associations', Feature_ID=row['Feature_ID']) }}">{{ row["Feature_ID"] }}</a></b></td>
           <td>{{ row["DateCode"] }}</td>
           <td>{{ row["Value"] }}</td>
         </tr>
