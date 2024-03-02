@@ -35,7 +35,7 @@ with open('open_resource_data/ID_table.csv', newline='') as f:
       
         cur.execute('INSERT INTO ID_table VALUES (?,?,?,?,?)', (Feature_ID, DateCode, Measurement, Value, by_Development_Type))
         conn.commit()
-print("data parsed successfully");
+print("data parsed successfully")
 
 total_row = 0
 success_row = 0

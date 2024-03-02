@@ -1,4 +1,6 @@
-import sqlite3
+import sqlite3, logging, os
+logging.basicConfig(filename='app.log', level=logging.ERROR)
+
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
@@ -33,28 +35,38 @@ def show(Feature_ID):
   conn.close()
   return render_template('show.html', rows=rows, Feature_ID=Feature_ID)
 
-@app.route('/associations')
-def associations():
-  conn = get_connection()
-  cur = conn.cursor()
-  cur.execute("""
-    SELECT * FROM ID_table
-    JOIN category ON ID_table.Feature_ID = category.Feature_ID
-  """)
-  rows = cur.fetchall()
-  conn.close()
-  
-  values = [row['Value'] for row in rows if row['Value'] is not None]
+@app.route('/associations/<Feature_ID>')
+def associations(Feature_ID):
+  try:
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+      SELECT ID_table.Feature_ID, ID_table.DateCode, ID_table.Measurement,ID_table.Value, 
+      ID_table.by_Development_Type, category.ID, category.Value AS 'Cvalue', 
+      category.DateCode AS 'CDateCode', category.by_category
+      FROM ID_table
+      JOIN category ON ID_table.Feature_ID = category.Feature_ID 
+      WHERE category.Feature_ID = ?
+    """, (Feature_ID,))
+    rows = cur.fetchall()
+    conn.close()
+  except sqlite3.DatabaseError as e:
+    app.logger.error(f"Database error: {e}")
+    return render_template('error.html'), 500
+  except Exception as e:
+    app.logger.error(f"Internal error: {e}")
+    return render_template('error.html'), 500
+  return render_template('associations.html', rows=rows)
 
-  if values:
-    total = sum(values)
-    average = total / len(values)
-    max_value = max(values)
-    min_value = min(values)
-  else:
-    total = average = max_value = min_value = 0
+@app.errorhandler(404)
+def not_found_error(error):
+  return render_template('404.html'), 404 
 
-  return render_template('associations.html', rows=rows, total=total, average=average, max_value=max_value, min_value=min_value)
+@app.errorhandler(500)
+def internal_error(error):
+  return render_template('500.html'), 500  
 
 if __name__ == '__main__':
-  app.run(debug=True)
+  app.run(debug=False)
+  DEBUG_MODE = os.environ.get('FLASK_DEBUG', 'False') == 'True'
+  app.run(debug=DEBUG_MODE)
