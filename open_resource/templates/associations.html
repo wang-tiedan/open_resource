@@ -5,6 +5,14 @@
 {% block header %}Associated Data from ID_table and Category{% endblock %}
 
 {% block content %}
+
+<div class="statistics">
+    <p>Total Value: {{ total }}</p>
+    <p>Average Value: {{ average }}</p>
+    <p>Max Value: {{ max_value }}</p>
+    <p>Min Value: {{ min_value }}</p>
+</div>
+
   <table class="data-table">
     <thead>
       <tr>
@@ -33,4 +41,69 @@
       {% endfor %}
     </tbody>
   </table>
+
+<canvas id="valueChart" width="400" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  var chartData = {
+    labels: ['Total', 'Average', 'Max', 'Min'],
+    datasets: [{
+      label: 'Statistics',
+      data: [{{ total }}, {{ average }}, {{ max_value }}, {{ min_value }}],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+ 
+var chartData = {
+  labels: ['Total', 'Average', 'Max', 'Min'],
+  datasets: [{
+    label: 'Statistics',
+    data: [{{ total }}, {{ average }}, {{ max_value }}, {{ min_value }}],
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(255, 206, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)'
+    ],
+    borderColor: [
+      'rgba(255, 99, 132, 1)',
+      'rgba(54, 162, 235, 1)',
+      'rgba(255, 206, 86, 1)',
+      'rgba(75, 192, 192, 1)'
+    ],
+    borderWidth: 1
+  }]
+};
+
+<script>
+  var ctx = document.getElementById('valueChart').getContext('2d');
+  var valueChart = new Chart(ctx, {
+    type: 'bar',
+    data: chartData,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+
+
 {% endblock %}
+
+
