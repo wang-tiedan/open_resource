@@ -1,4 +1,4 @@
-<html>
+<!-- <html>
 
 <head>
   <title>Planning Applications Decisions - Major and Minor Developments , England, District</title>
@@ -12,3 +12,33 @@
 </body>
 
 </html>
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Planning Applications Decisions - Major and Minor Developments, England, District{% endblock %}
+
+{% block header %}DCLG Planning Decisions Major and Minor Developments by Category{% endblock %}
+
+{% block content %}
+  <p>FeatureID: <b>{{ Feature_ID }}</b></p>
+  <p>Sightings via Radio Device</p>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Bear</th>
+        <th>Date Code</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          <td><b>{{ row["Feature_ID"] }}</b></td>
+          <td>{{ row["DateCode"] }}</td>
+          <td>{{ row["Value"] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

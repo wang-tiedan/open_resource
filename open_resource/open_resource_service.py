@@ -36,3 +36,18 @@ def show(Feature_ID):
   rows = get_data_from_db_where(conn,"category", "Feature_ID", Feature_ID)
   conn.close()
   return render_template('show.html', rows=rows, Feature_ID=Feature_ID)
+
+@app.route('/associations')
+def associations():
+  conn = get_connection()
+  cur = conn.cursor()
+  cur.execute("""
+      SELECT * FROM ID_table
+      JOIN category ON ID_table.Feature_ID = category.Feature_ID
+  """)
+  rows = cur.fetchall()
+  conn.close()
+  return render_template('associations.html', rows=rows)
+
+if __name__ == '__main__':
+    app.run(debug=True)

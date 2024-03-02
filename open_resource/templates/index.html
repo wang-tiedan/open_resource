@@ -1,4 +1,4 @@
-<html>
+<!-- <html>
 
 <head>
   <title>Planning Applications Decisions - Major and Minor Developments , England, District</title>
@@ -13,3 +13,38 @@
 </body>
 
 </html>
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Planning Applications Decisions - Major and Minor Developments, England, District{% endblock %}
+
+{% block header %}DCLG Planning Decisions Major and Minor Developments by Development Type{% endblock %}
+
+{% block content %}
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Feature ID</th>
+        <th>Date Code</th>
+        <th>Measurement</th>
+        <th>Value</th>
+        <th>Development Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>
+            <a href="{{ url_for('show', Feature_ID=row['Feature_ID']) }}">{{ row["Feature_ID"] }}</a>
+          </td>
+          <td>{{ row["DateCode"] }}</td>
+          <td>{{ row["Measurement"] }}</td>
+          <td>{{ row["Value"] }}</td>
+          <td>{{ row["by_Development_Type"] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+

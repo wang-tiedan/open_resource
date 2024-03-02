@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <style>
+    /* 在这里添加基础的表格样式 */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    .data-table, .data-table th, .data-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .data-table th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    .data-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .data-table tr:hover {
+      background-color: #eaeaea;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>{% block header %}{% endblock %}</h1>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    {% block footer %}
+    <p>Footer content goes here.</p>
+    {% endblock %}
+  </footer>
+</body>
+
+</html>
+

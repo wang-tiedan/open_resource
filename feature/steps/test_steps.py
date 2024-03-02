@@ -1,9 +1,9 @@
 # -- FILE: features/steps/test_steps.py
 
 from behave import given, when, then, step
-# 导入Flask app测试客户端
+
 from open_resource.open_resource import app
-# 给出一个测试客户端
+
 def before_all(context):
   context.client = app.test_client()
   context.response = None
