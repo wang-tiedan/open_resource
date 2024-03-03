@@ -1,5 +1,4 @@
 import sqlite3, logging, os
-logging.basicConfig(filename='app.log', level=logging.ERROR)
 
 from flask import Flask, render_template, request
 
@@ -49,6 +48,27 @@ def associations(Feature_ID):
       WHERE category.Feature_ID = ?
     """, (Feature_ID,))
     rows = cur.fetchall()
+    cur.execute("""      
+      SELECT SUM(category.Value) FROM ID_table
+      JOIN category ON ID_table.Feature_ID = category.Feature_ID 
+      WHERE category.Feature_ID = ?""", (Feature_ID,))
+    total = cur.fetchone()["SUM(category.Value)"]
+    cur.execute("""      
+      SELECT AVG(category.Value) FROM ID_table
+      JOIN category ON ID_table.Feature_ID = category.Feature_ID 
+      WHERE category.Feature_ID = ?""", (Feature_ID,))
+    average =  cur.fetchone()["AVG(category.Value)"]
+    cur.execute("""      
+      SELECT MAX(category.Value) FROM ID_table
+      JOIN category ON ID_table.Feature_ID = category.Feature_ID 
+      WHERE category.Feature_ID = ?""", (Feature_ID,))
+    max_value =  cur.fetchone()["MAX(category.Value)"]
+    cur.execute("""      
+      SELECT MIN(category.Value) FROM ID_table
+      JOIN category ON ID_table.Feature_ID = category.Feature_ID 
+      WHERE category.Feature_ID = ?""", (Feature_ID,))
+    min_value =  cur.fetchone()["MIN(category.Value)"]
+    print(total)
     conn.close()
   except sqlite3.DatabaseError as e:
     app.logger.error(f"Database error: {e}")
@@ -56,7 +76,7 @@ def associations(Feature_ID):
   except Exception as e:
     app.logger.error(f"Internal error: {e}")
     return render_template('error.html'), 500
-  return render_template('associations.html', rows=rows)
+  return render_template('associations.html', rows=rows, average=average,total=total,max_value=max_value,min_value=min_value)
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -68,5 +88,4 @@ def internal_error(error):
 
 if __name__ == '__main__':
   app.run(debug=False)
-  DEBUG_MODE = os.environ.get('FLASK_DEBUG', 'False') == 'True'
   app.run(debug=DEBUG_MODE)
